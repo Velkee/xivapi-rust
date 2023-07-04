@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all = "PascalCase")]
+/// Information about a Free Company (FC).
 pub struct FreeCompany {
     pub active: String,
     pub active_member_count: u16,
@@ -28,6 +29,7 @@ pub struct FreeCompany {
 
 #[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all = "PascalCase")]
+/// Info about an FC's estate.
 pub struct FcEstate {
     pub greeting: String,
     pub name: String,
@@ -36,6 +38,7 @@ pub struct FcEstate {
 
 #[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all = "PascalCase")]
+/// An FC's chosen focus.
 pub struct FcFocus {
     pub icon: String,
     pub name: String,
@@ -44,6 +47,7 @@ pub struct FcFocus {
 
 #[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all = "PascalCase")]
+/// An FC's montly and yearly ranking.
 pub struct FcRanking {
     pub monthly: String,
     pub weekly: String,
@@ -51,6 +55,7 @@ pub struct FcRanking {
 
 #[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all = "PascalCase")]
+/// An FC's standing with Eorzea's nations.
 pub struct FcReputation {
     pub name: String,
     pub progress: u8,

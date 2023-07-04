@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all = "PascalCase")]
+/// A character's current gear set.
 pub struct GearSet {
     pub attributes: HashMap<u32, u32>,
     #[serde(rename = "ClassID")]
@@ -17,6 +18,7 @@ pub struct GearSet {
 
 #[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all = "PascalCase")]
+/// Individual gear slots.
 pub struct Gear {
     pub body: Option<GearPiece>,
     pub bracelets: Option<GearPiece>,
@@ -34,6 +36,7 @@ pub struct Gear {
 
 #[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all = "PascalCase")]
+/// Gear piece information.
 pub struct GearPiece {
     pub creator: Option<String>,
     pub dye: Option<u32>,

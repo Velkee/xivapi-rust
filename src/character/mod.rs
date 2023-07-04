@@ -15,6 +15,7 @@ use self::{
 
 #[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all = "PascalCase")]
+/// All information obtained about a character from a name search.
 pub struct CharacterSearch {
     pub avatar: String,
     pub feast_matches: u32,
@@ -29,6 +30,7 @@ pub struct CharacterSearch {
 
 #[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all = "PascalCase")]
+/// Collection of characters that match a name search.
 pub struct CharacterSearchResults {
     pagination: Pagination,
     pub results: Vec<CharacterSearch>,
@@ -42,6 +44,7 @@ impl fmt::Display for CharacterSearchResults {
 
 #[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all = "PascalCase")]
+/// A detailed character profile.
 pub struct CharacterProfile {
     pub active_class_job: Class,
     pub avatar: String,
@@ -75,6 +78,7 @@ pub struct CharacterProfile {
 }
 
 #[derive(Deserialize, Serialize, Debug)]
+/// A character's grand company.
 pub struct GrandCompany {
     #[serde(rename = "NameID")]
     pub name_id: u8,
@@ -84,6 +88,7 @@ pub struct GrandCompany {
 
 #[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all = "PascalCase")]
+/// All information gained from a character ID request.
 pub struct CharacterProfileResult {
     pub achievements: Option<CharacterAchievements>,
     pub achievements_public: Option<bool>,
@@ -100,6 +105,7 @@ pub struct CharacterProfileResult {
 
 #[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all = "PascalCase")]
+/// Mounts and minions of a character
 pub struct Mimo {
     pub icon: String,
     pub name: String,

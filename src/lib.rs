@@ -1,23 +1,31 @@
+//! This crate provides a library for interacting with [XIVAPI], a REST API for the popular MMORPG Final Fantasy XIV.
+//!
+//! XIVAPI's API docs can be found [here].
+//!
+//! [XIVAPI]: https://xivapi.com
+//! [here]: https://xivapi.com/docs
+
 use reqwest::Client;
 
+/// Structs and modules used in character searches.
 pub mod character;
-pub mod enums;
+/// Structs used to parse FC information.
 pub mod freecompany;
-pub mod pagination;
+
+mod pagination;
 
 use character::{CharacterProfileResult, CharacterSearchResults};
-use enums::{ExtraData, Server};
 
 #[cfg(test)]
 mod tests {
-    use crate::{Server, XIVAPIClient};
+    use crate::XIVAPIClient;
 
     #[tokio::test]
     async fn test_character_search() {
         let client = XIVAPIClient::new();
 
         client
-            .character_search("Tami Pesagniyah".to_string(), Some(Server::Omega), None)
+            .character_search("Tami Pesagniyah", Some("Omega"), None)
             .await
             .unwrap();
     }
@@ -27,7 +35,7 @@ mod tests {
         let client = XIVAPIClient::new();
 
         let result = client
-            .character_search("Tami Pesagniyah".to_string(), Some(Server::Omega), None)
+            .character_search("Tami Pesagniyah", Some("Omega"), None)
             .await
             .unwrap();
 
@@ -38,20 +46,43 @@ mod tests {
     }
 }
 
+/// The main client. Responsible for running all API queries.
+///
+/// You must create a new client using `XIVAPIClient::new()` before you can make API calls.
+///
+/// # Examples
+/// ```
+/// use xivapi_rust::XIVAPIClient;
+///
+/// #[tokio::main]
+/// async fn main() {
+///     let client = XIVAPIClient::new();
+///
+///     // Queries XIVAPI for a character named "Scott" on the Omega server.
+///     let result = client.character_search("Scott", Some("Omega"), None)
+///         .await
+///         .unwrap();
+/// }
+/// ```
 pub struct XIVAPIClient {
     client: Client,
 }
 
 impl XIVAPIClient {
+    /// Creates a new instance of XIVAPIClient.
     pub fn new() -> Self {
         let client = Client::new();
         XIVAPIClient { client }
     }
 
+    /// Does a name-based search for a character.
+    ///
+    /// Returns basic info of all characters that match the search criteria.
+    /// If no characters match the criteria, the returned array will be empty.
     pub async fn character_search(
         &self,
-        name: String,
-        server: Option<Server>,
+        name: &str,
+        server: Option<&str>,
         page: Option<u8>,
     ) -> Result<CharacterSearchResults, reqwest::Error> {
         let mut search_params = Vec::new();
@@ -78,11 +109,14 @@ impl XIVAPIClient {
         Ok(result)
     }
 
+    /// Gives detailed information about a character from a character ID.
+    ///
+    /// The `extended` option will extend out the data IDs of useful objects.
     pub async fn character_lookup(
         &self,
         character_id: u32,
         extended: bool,
-        data: Option<Vec<ExtraData>>,
+        data: Option<Vec<&str>>,
     ) -> Result<CharacterProfileResult, reqwest::Error> {
         let mut seach_params = Vec::new();
 
