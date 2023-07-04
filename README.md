@@ -7,3 +7,7 @@ This library aims to be a starting point for other apps that wish to query xivap
 ## Contributing
 
 Contributions are welcome and much appreciated. This is one of my first real Rust projects, so bug reports, code improvements, and feature suggestions are appreciated.
+
+## License
+
+This project is licensed under GPL-3.0, see the [LICENSE](https://github.com/Velkee/xivapi-rust/blob/main/LICENSE) for more information.
