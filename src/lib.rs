@@ -22,42 +22,44 @@ mod tests {
     use crate::XIVAPIClient;
 
     #[tokio::test]
-    async fn test_character_search() {
+    async fn test_character_search() -> Result<(), reqwest::Error> {
         let client = XIVAPIClient::new();
 
         client
             .character_search("Tami Pesagniyah", Some("Omega"), None)
-            .await
-            .unwrap();
+            .await?;
+
+        Ok(())
     }
 
     #[tokio::test]
-    async fn test_character_lookup() {
+    async fn test_character_lookup() -> Result<(), reqwest::Error> {
         let client = XIVAPIClient::new();
 
         let result = client
             .character_search("Tami Pesagniyah", Some("Omega"), None)
-            .await
-            .unwrap();
+            .await?;
 
         client
             .character_lookup(result.results[0].id, false, None)
-            .await
-            .unwrap();
+            .await?;
+
+        Ok(())
     }
 
     #[tokio::test]
-    async fn test_free_company_search() {
+    async fn test_free_company_search() -> Result<(), reqwest::Error> {
         let client = XIVAPIClient::new();
 
         client
             .free_company_search("SEES", Some("Omega"), None)
-            .await
-            .unwrap();
+            .await?;
+
+        Ok(())
     }
 
     #[tokio::test]
-    async fn test_free_company_lookup() {
+    async fn test_free_company_lookup() -> Result<(), reqwest::Error> {
         let client = XIVAPIClient::new();
 
         let result = client
@@ -67,8 +69,9 @@ mod tests {
 
         client
             .free_company_lookup(&result.results[0].id, false, None)
-            .await
-            .unwrap();
+            .await?;
+
+        Ok(())
     }
 }
 
@@ -81,13 +84,14 @@ mod tests {
 /// use xivapi_rust::XIVAPIClient;
 ///
 /// #[tokio::main]
-/// async fn main() {
+/// async fn main() -> Result<(), reqwest::Error> {
 ///     let client = XIVAPIClient::new();
 ///
 ///     // Queries XIVAPI for a character named "Scott" on the Omega server.
 ///     let result = client.character_search("Scott", Some("Omega"), None)
-///         .await
-///         .unwrap();
+///         .await?;
+///
+///     Ok(())
 /// }
 /// ```
 pub struct XIVAPIClient {
