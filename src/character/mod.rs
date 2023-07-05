@@ -1,5 +1,4 @@
 use serde::{Deserialize, Serialize};
-use std::fmt;
 
 pub mod achievements;
 pub mod class;
@@ -12,6 +11,14 @@ use self::{
     class::{Class, ClassBozjan, ClassElemental},
     gear::GearSet,
 };
+
+#[derive(Deserialize, Serialize, Debug)]
+#[serde(rename_all = "PascalCase")]
+/// Collection of characters that match a name search.
+pub struct CharacterSearchResults {
+    pagination: Pagination,
+    pub results: Vec<CharacterSearch>,
+}
 
 #[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all = "PascalCase")]
@@ -30,22 +37,25 @@ pub struct CharacterSearch {
 
 #[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all = "PascalCase")]
-/// Collection of characters that match a name search.
-pub struct CharacterSearchResults {
-    pagination: Pagination,
-    pub results: Vec<CharacterSearch>,
-}
-
-impl fmt::Display for CharacterSearchResults {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        fmt::Debug::fmt(&self, f)
-    }
+/// All information gained from a character ID request.
+pub struct CharacterResult {
+    pub achievements: Option<CharacterAchievements>,
+    pub achievements_public: Option<bool>,
+    pub character: Character,
+    pub free_company: Option<FreeCompany>,
+    pub free_company_members: Option<Vec<CharacterSearch>>,
+    pub friends: Option<Vec<CharacterSearch>>,
+    pub friends_public: Option<bool>,
+    pub minions: Option<Vec<Mimo>>,
+    pub mounts: Option<Vec<Mimo>>,
+    #[serde(rename = "PvPTeam")]
+    pub pvpteam: Option<String>,
 }
 
 #[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all = "PascalCase")]
 /// A detailed character profile.
-pub struct CharacterProfile {
+pub struct Character {
     pub active_class_job: Class,
     pub avatar: String,
     pub bio: String,
@@ -84,23 +94,6 @@ pub struct GrandCompany {
     pub name_id: u8,
     #[serde(rename = "RankID")]
     pub rank_id: u8,
-}
-
-#[derive(Deserialize, Serialize, Debug)]
-#[serde(rename_all = "PascalCase")]
-/// All information gained from a character ID request.
-pub struct CharacterProfileResult {
-    pub achievements: Option<CharacterAchievements>,
-    pub achievements_public: Option<bool>,
-    pub character: CharacterProfile,
-    pub free_company: Option<FreeCompany>,
-    pub free_company_members: Option<Vec<CharacterSearch>>,
-    pub friends: Option<Vec<CharacterSearch>>,
-    pub friends_public: Option<bool>,
-    pub minions: Option<Vec<Mimo>>,
-    pub mounts: Option<Vec<Mimo>>,
-    #[serde(rename = "PvPTeam")]
-    pub pvpteam: Option<String>,
 }
 
 #[derive(Deserialize, Serialize, Debug)]

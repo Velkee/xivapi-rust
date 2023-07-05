@@ -1,8 +1,36 @@
 use serde::{Deserialize, Serialize};
 
+use crate::{character::CharacterSearch, pagination::Pagination};
+
 #[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all = "PascalCase")]
-/// Information about a Free Company (FC).
+/// Collection of Free Companies that match a name search.
+pub struct FreeCompanySearchResults {
+    pagination: Pagination,
+    pub results: Vec<FreeCompanySearch>,
+}
+
+#[derive(Deserialize, Serialize, Debug)]
+#[serde(rename_all = "PascalCase")]
+/// All information obtained from a Free Company from a name search.
+pub struct FreeCompanySearch {
+    pub crest: Vec<String>,
+    #[serde(rename = "ID")]
+    pub id: String,
+    pub name: String,
+    pub server: String,
+}
+
+#[derive(Deserialize, Serialize, Debug)]
+#[serde(rename_all = "PascalCase")]
+pub struct FreeCompanyResult {
+    pub free_company: FreeCompany,
+    pub free_company_members: Option<Vec<CharacterSearch>>,
+}
+
+#[derive(Deserialize, Serialize, Debug)]
+#[serde(rename_all = "PascalCase")]
+/// Details about a Free Company (FC).
 pub struct FreeCompany {
     pub active: String,
     pub active_member_count: u16,
@@ -21,7 +49,7 @@ pub struct FreeCompany {
     pub ranking: FcRanking,
     pub recruitment: String,
     pub reputation: Vec<FcReputation>,
-    pub seeking: Vec<String>,
+    pub seeking: Vec<Seeking>,
     pub server: String,
     pub slogan: String,
     pub tag: String,
@@ -49,8 +77,8 @@ pub struct FcFocus {
 #[serde(rename_all = "PascalCase")]
 /// An FC's montly and yearly ranking.
 pub struct FcRanking {
-    pub monthly: String,
-    pub weekly: String,
+    pub monthly: u32,
+    pub weekly: u32,
 }
 
 #[derive(Deserialize, Serialize, Debug)]
@@ -60,4 +88,12 @@ pub struct FcReputation {
     pub name: String,
     pub progress: u8,
     pub rank: String,
+}
+
+#[derive(Deserialize, Serialize, Debug)]
+#[serde(rename_all = "PascalCase")]
+pub struct Seeking {
+    pub icon: String,
+    pub name: String,
+    pub status: bool,
 }
