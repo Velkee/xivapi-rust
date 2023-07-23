@@ -5,6 +5,9 @@
 //! [XIVAPI]: https://xivapi.com
 //! [here]: https://xivapi.com/docs
 
+
+#![warn(missing_docs)]
+
 use freecompany::{FreeCompanyResult, FreeCompanySearchResults};
 use reqwest::Client;
 
@@ -107,8 +110,19 @@ impl XIVAPIClient {
 
     /// Does a name-based search for a character.
     ///
-    /// Returns basic info of all characters that match the search criteria.
+    /// Returns basic information of all characters that match the search criteria.
     /// If no characters match the criteria, the returned array will be empty.
+    ///
+    /// # Arguments
+    ///
+    /// * `name` - The name of the character to search for.
+    /// * `server` - An optional server name filter for the character search.
+    /// * `page` - An optional page number for paginated results.
+    ///
+    /// # Returns
+    ///
+    /// A `Result` containing the search results as `CharacterSearchResults` or a `reqwest::Error`
+    /// if the request to XIVAPI fails.
     pub async fn character_search(
         &self,
         name: &str,
@@ -140,8 +154,17 @@ impl XIVAPIClient {
     }
 
     /// Gives detailed information about a character from a character ID.
+    /// 
+    /// # Arguments
+    /// 
+    /// * `character_id` - The ID of the character to look up.
+    /// * `extended` - If true, extends out the data IDs of useful objects.
+    /// * `data` - Additional information to be requested from the API.
+    /// 
+    /// # Returns
     ///
-    /// The `extended` option will extend out the data IDs of useful objects.
+    /// A `Result` containing character information as `CharacterResult` or a `reqwest::Error`
+    /// if the request to XIVAPI fails.
     pub async fn character_lookup(
         &self,
         character_id: u32,
@@ -171,6 +194,21 @@ impl XIVAPIClient {
         Ok(result)
     }
 
+    /// Does a name-based search for a Free Company (FC).
+    ///
+    /// Returns basic information of all Free Companies that match the search criteria.
+    /// If no Free Companies match the criteria, the returned array will be empty.
+    ///
+    /// # Arguments
+    ///
+    /// * `name` - The name of the Free Company to search for.
+    /// * `server` - An optional server name filter for the Free Company search.
+    /// * `page` - An optional page number for paginated results.
+    ///
+    /// # Returns
+    ///
+    /// A `Result` containing the search results as `FreeCompanySearchResults` or a `reqwest::Error`
+    /// if the request to XIVAPI fails.
     pub async fn free_company_search(
         &self,
         name: &str,
@@ -201,6 +239,20 @@ impl XIVAPIClient {
         Ok(result)
     }
 
+    /// Gives detailed information about a Free Company (FC) from a Free Company ID.
+    ///
+    /// The `extended` option will extend out additional data IDs of useful objects.
+    ///
+    /// # Arguments
+    ///
+    /// * `free_company_id` - The ID of the Free Company to look up.
+    /// * `extended` - If true, extends out additional data IDs of useful objects.
+    /// * `data` - An optional list of data keys to specify additional data to include in the response.
+    ///
+    /// # Returns
+    ///
+    /// A `Result` containing detailed information about the Free Company as `FreeCompanyResult` or a `reqwest::Error`
+    /// if the request to XIVAPI fails.
     pub async fn free_company_lookup(
         &self,
         character_id: &str,
